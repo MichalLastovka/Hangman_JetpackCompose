@@ -11,14 +11,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.hangman_jetpackcompose.utils.buttonList1stRow
 import com.example.hangman_jetpackcompose.utils.buttonList2ndRow
 import com.example.hangman_jetpackcompose.utils.buttonList3rdRow
 
 @Composable
 fun Keyboard(
-
 ) {
+    val viewModel: GameScreenViewModel = viewModel()
 
     Column(
         modifier = Modifier
@@ -34,7 +35,7 @@ fun Keyboard(
         ) {
             for (letter in buttonList1stRow) {
                 LetterButton(text = letter) {
-                    println(letter)
+                    viewModel.evaluateInput(letter.lowercaseChar())
                 }
             }
         }
@@ -46,7 +47,7 @@ fun Keyboard(
         ) {
             for (letter in buttonList2ndRow) {
                 LetterButton(text = letter) {
-                    println(letter)
+                    viewModel.evaluateInput(letter.lowercaseChar())
                 }
             }
         }
@@ -58,7 +59,7 @@ fun Keyboard(
         ) {
             for (letter in buttonList3rdRow) {
                 LetterButton(text = letter) {
-                    println(letter)
+                    viewModel.evaluateInput(letter.lowercaseChar())
                 }
             }
         }
@@ -66,9 +67,7 @@ fun Keyboard(
 }
 
 @Preview(
-    showBackground = true,
-    showSystemUi = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Composable
 fun PrevKeyboard(

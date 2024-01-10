@@ -14,17 +14,17 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun LetterButton(
-    text: String,
-    onClick: () -> Unit
+    text: Char,
+    onClick: (Char) -> Unit
 ) {
     TextButton(
-        onClick = { onClick() },
+        onClick = { onClick(text) },
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
             .size(35.dp)
             .background(Color.Red),
     ) {
-        Text(text = text)
+        Text(text = text.toString())
     }
 }
 
@@ -36,7 +36,7 @@ fun LetterButton(
 fun PrevLetterButton(
 
 ) {
-    LetterButton("A") {
+    LetterButton('A') {
         println("A")
     }
 }

@@ -34,7 +34,7 @@ fun GameScreen(
                 text = DateUtils.formatElapsedTime(viewModel.timerSeconds)
             )
             Text(
-                text = "❤️".repeat(viewModel.lifeCount.intValue)
+                text = "❤️".repeat(viewModel.lifeCount)
             )
         }
         Text(
@@ -42,6 +42,11 @@ fun GameScreen(
             fontSize = 40.sp
         )
         Keyboard()
+    }
+    if (viewModel.dialogState){
+        WinDialog {
+
+        }
     }
 
 }
