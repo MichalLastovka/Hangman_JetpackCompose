@@ -21,12 +21,12 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 
 @Composable
-fun WinDialog(
+fun LossDialog(
     secretWord: String,
     onDismiss: () -> Unit
 ) {
     Dialog(
-        onDismissRequest = {},
+        onDismissRequest = { onDismiss() },
         properties = DialogProperties(
             dismissOnClickOutside = false,
             usePlatformDefaultWidth = false
@@ -47,17 +47,17 @@ fun WinDialog(
                 verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "You have won!\nThe word, you discovered is truly:\n$secretWord")
+                Text(text = "You have lost!\nThe word you were looking for was:\n$secretWord")
                 Row {
+                    TextButton(
+                        onClick = { /*TODO*/ }
+                    ) {
+                        Text(text = "Menu")
+                    }
                     TextButton(
                         onClick = { onDismiss() }
                     ) {
                         Text(text = "Cancel")
-                    }
-                    TextButton(
-                        onClick = { /*TODO*/ }
-                    ) {
-                        Text(text = "Restart")
                     }
                 }
             }

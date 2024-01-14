@@ -17,7 +17,9 @@ class GameScreenViewModel : ViewModel(
 
 ) {
 
-    var dialogState by mutableStateOf(false)
+    var buttonState by mutableStateOf(true)
+    var winDialogState by mutableStateOf(false)
+    var lossDialogState by mutableStateOf(false)
     val secretWord by mutableStateOf(pickSecretWord(8))
     val guessedLetters = mutableListOf<Char>()
     var secretWordCovered = mutableStateOf(" _ ".repeat(secretWord.length))
@@ -33,11 +35,35 @@ class GameScreenViewModel : ViewModel(
         )
     }
 
+    fun switchButtonState(){
+        buttonState = !buttonState
+    }
+    fun switchWinDialogState(){
+        winDialogState = !winDialogState
+    }
+
+    fun switchLossDialogState(){
+        lossDialogState = !lossDialogState
+    }
+
+    fun checkWinLoss(){
+        if (lifeCount == 0){
+            val fail = MediaPlayer.create(HangmanApplication.getAppContext(), R.raw.fail)
+            fail.start()
+            switchLossDialogState()
+        }
+        if (guessedLetters.size == secretWord.toCharArray().distinct().size){
+            val fanfare = MediaPlayer.create(HangmanApplication.getAppContext(), R.raw.fanfare)
+            fanfare.start()
+            switchWinDialogState()
+        }
+    }
+
+    fun setupNewGame(){
+
+    }
 
     fun evaluateInput(input: Char) {
-        println(input)
-        println(secretWord)
-        println(secretWord.toList())
         if (input in secretWord.toList()) {
             val ringSound = MediaPlayer.create(HangmanApplication.getAppContext(), R.raw.bell)
             ringSound.start()
@@ -51,11 +77,12 @@ class GameScreenViewModel : ViewModel(
                 }
             }
             secretWordCovered = mutableStateOf(toDisplay)
-            dialogState = true
+            checkWinLoss()
         } else {
             val duckSound = MediaPlayer.create(HangmanApplication.getAppContext(), R.raw.duck)
             duckSound.start()
             lifeCount -= 1
+            checkWinLoss()
         }
     }
 

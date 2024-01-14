@@ -22,7 +22,8 @@ fun GameScreen(
     val viewModel: GameScreenViewModel = viewModel()
 
     Column (
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween
     ){
         Row (
             modifier = Modifier
@@ -43,9 +44,14 @@ fun GameScreen(
         )
         Keyboard()
     }
-    if (viewModel.dialogState){
-        WinDialog {
-
+    if (viewModel.winDialogState){
+        WinDialog(viewModel.secretWord) {
+            viewModel.switchWinDialogState()
+        }
+    }
+    if (viewModel.lossDialogState){
+        LossDialog(viewModel.secretWord) {
+            viewModel.switchLossDialogState()
         }
     }
 

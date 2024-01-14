@@ -24,7 +24,7 @@ fun Keyboard(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 10.dp),
+            .padding(top = 10.dp, bottom = 40.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
@@ -36,6 +36,7 @@ fun Keyboard(
             for (letter in buttonList1stRow) {
                 LetterButton(text = letter) {
                     viewModel.evaluateInput(letter.lowercaseChar())
+
                 }
             }
         }
