@@ -6,9 +6,14 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.hangman_jetpackcompose.ui.theme.Hangman_JetpackComposeTheme
-import kotlin.concurrent.timer
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,9 +27,44 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    GameScreen()
+                    HangmanApp()
                 }
             }
         }
+    }
+}
+
+@Composable
+fun HangmanApp(
+
+) {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "menu") {
+        composable("menu") {
+            MenuScreen(navController)
+        }
+        composable("settings") {
+            SettingsScreen(navController)
+        }
+        composable(
+            "game"+"/{difficulty}/{length}",
+            listOf(
+                navArgument(
+                    "difficulty"
+                ){
+                    type = NavType.StringType
+                    defaultValue = "medium"
+                },
+                navArgument(
+                    "length"
+                ){
+                    type = NavType.StringType
+                    defaultValue = "medium"
+                }
+            )
+        ) { entry ->
+            GameScreen(navController, difficulty = entry.arguments?.getString("difficulty"), length = entry.arguments?.getString("length"))
+        }
+
     }
 }

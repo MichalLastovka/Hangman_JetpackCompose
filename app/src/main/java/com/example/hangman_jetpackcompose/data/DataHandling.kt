@@ -8,8 +8,7 @@ private val nouns = InputStreamReader(HangmanApplication.getAppContext().assets.
 private val readerNouns = BufferedReader(nouns)
 private val nounList = readerNouns.readLines().toMutableList()
 
-fun pickSecretWord(length: Int): String {
-    val suitableWords = nounList.filter { it.length == length }
-    println(suitableWords.random())
+fun pickSecretWord(length: IntRange): String {
+    val suitableWords = nounList.filter { it.length in length }
     return suitableWords.random().lowercase()
 }

@@ -1,9 +1,9 @@
 package com.example.hangman_jetpackcompose.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -18,7 +18,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.hangman_jetpackcompose.ui.theme.ButtonsColor
+import androidx.compose.ui.unit.sp
+import com.example.hangman_jetpackcompose.ui.theme.rubidoodle
 
 @Composable
 fun LetterButton(
@@ -33,15 +34,19 @@ fun LetterButton(
         },
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
+            .border(1.dp, Color.Black, RoundedCornerShape(8.dp))
             .size(35.dp)
-            .background(if (!wasClicked) ButtonsColor else Color.LightGray),
+
+            .background(if (!wasClicked) Color.White else Color.LightGray),
         enabled = !wasClicked
     ) {
         Text(
             text = text.toString(),
-            color = if(wasClicked)Color.Gray else Color.Black,
-            style = if(wasClicked) TextStyle(textDecoration = TextDecoration.LineThrough) else TextStyle()
-            )
+            fontSize = 14.sp,
+            fontFamily = rubidoodle,
+            color = if (wasClicked) Color.Gray else Color.Black,
+            style = if (wasClicked) TextStyle(textDecoration = TextDecoration.LineThrough) else TextStyle()
+        )
     }
 }
 

@@ -1,5 +1,6 @@
 package com.example.hangman_jetpackcompose.presentation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,14 +16,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.NavController
+import com.example.hangman_jetpackcompose.ui.theme.WinDialogColor
+import com.example.hangman_jetpackcompose.ui.theme.rubidoodle
 
 @Composable
 fun WinDialog(
+    navController: NavController,
     secretWord: String,
+    score: Long,
+    stateDiff: String?,
+    stateLength: String?,
     onDismiss: () -> Unit
 ) {
     Dialog(
@@ -43,24 +51,71 @@ fun WinDialog(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .background(WinDialogColor)
                     .padding(15.dp),
                 verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "You have won!\nThe word, you discovered is truly:\n$secretWord")
-                Row {
+                Text(
+                    text = "Victory!",
+                    color = Color.Black,
+                    fontFamily = rubidoodle,
+                    fontSize = 30.sp
+                )
+                Text(
+                    text = "The word you were looking for is:",
+                    color = Color.Black,
+                    modifier = Modifier.padding(vertical = 5.dp),
+                    fontFamily = rubidoodle,
+                    fontSize = 15.sp
+                )
+                Text(
+                    text = secretWord.uppercase(),
+                    color = Color.Black,
+                    modifier = Modifier.padding(vertical = 10.dp),
+                    fontFamily = rubidoodle,
+                    fontSize = 30.sp
+                )
+                Text(
+                    text = "Score: $score",
+                    color = Color.Black,
+                    modifier = Modifier.padding(vertical = 10.dp),
+                    fontFamily = rubidoodle,
+                    fontSize = 30.sp
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceAround
+                ) {
                     TextButton(
-                        onClick = { onDismiss() }
+                        onClick = {
+                            onDismiss()
+                            navController.navigate("menu")
+                        }
                     ) {
-                        Text(text = "Cancel")
+                        Text(
+                            text = "Menu",
+                            color = Color.Black,
+                            fontFamily = rubidoodle,
+                            fontSize = 20.sp
+                        )
                     }
                     TextButton(
-                        onClick = { /*TODO*/ }
+                        onClick = {
+                            onDismiss()
+                            navController.navigate("game/${stateDiff!!.lowercase()}/${stateLength!!.lowercase()}")
+                        }
                     ) {
-                        Text(text = "Restart")
+                        Text(
+                            text = "Play again",
+                            color = Color.Black,
+                            fontFamily = rubidoodle,
+                            fontSize = 20.sp
+                        )
                     }
                 }
             }
         }
     }
 }
+

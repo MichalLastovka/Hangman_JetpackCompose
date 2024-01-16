@@ -1,5 +1,6 @@
 package com.example.hangman_jetpackcompose.presentation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,18 +16,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.NavController
+import com.example.hangman_jetpackcompose.ui.theme.LossDialogColor
+import com.example.hangman_jetpackcompose.ui.theme.rubidoodle
 
 @Composable
 fun LossDialog(
+    navController: NavController,
     secretWord: String,
+    stateDiff: String?,
+    stateLength: String?,
     onDismiss: () -> Unit
 ) {
     Dialog(
-        onDismissRequest = { onDismiss() },
+        onDismissRequest = {},
         properties = DialogProperties(
             dismissOnClickOutside = false,
             usePlatformDefaultWidth = false
@@ -43,21 +50,55 @@ fun LossDialog(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .background(LossDialogColor)
                     .padding(15.dp),
                 verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "You have lost!\nThe word you were looking for was:\n$secretWord")
-                Row {
+                Text(text = "Loss!", color = Color.Black, fontFamily = rubidoodle, fontSize = 30.sp)
+                Text(
+                    text = "The word you failed to discover was:",
+                    color = Color.Black,
+                    modifier = Modifier.padding(vertical = 5.dp),
+                    fontFamily = rubidoodle,
+                    fontSize = 15.sp
+                )
+                Text(
+                    text = secretWord.uppercase(),
+                    color = Color.Black,
+                    modifier = Modifier.padding(vertical = 10.dp),
+                    fontFamily = rubidoodle,
+                    fontSize = 30.sp
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceAround
+                ) {
                     TextButton(
-                        onClick = { /*TODO*/ }
+                        onClick = {
+                            onDismiss()
+                            navController.navigate("menu")
+                        }
                     ) {
-                        Text(text = "Menu")
+                        Text(
+                            text = "Menu",
+                            color = Color.Black,
+                            fontFamily = rubidoodle,
+                            fontSize = 20.sp
+                        )
                     }
                     TextButton(
-                        onClick = { onDismiss() }
+                        onClick = {
+                            onDismiss()
+                            navController.navigate("game/${stateDiff!!.lowercase()}/${stateLength!!.lowercase()}")
+                        }
                     ) {
-                        Text(text = "Cancel")
+                        Text(
+                            text = "Play again",
+                            color = Color.Black,
+                            fontFamily = rubidoodle,
+                            fontSize = 20.sp
+                        )
                     }
                 }
             }
